@@ -1,3 +1,4 @@
+
 import React from "react";
 import {
   ActivityIndicator,
@@ -58,14 +59,16 @@ export const Button: React.FC<ButtonProps> = ({
       case "filled":
         return {
           ...baseStyle,
-          backgroundColor: isDark ? zincColors[50] : zincColors[900],
+          // Made buttons much lighter - using light gray instead of dark colors
+          backgroundColor: isDark ? zincColors[200] : zincColors[100],
         };
       case "outline":
         return {
           ...baseStyle,
           backgroundColor: "transparent",
           borderWidth: 1,
-          borderColor: isDark ? zincColors[700] : zincColors[300],
+          // Made outline borders lighter too
+          borderColor: isDark ? zincColors[400] : zincColors[200],
         };
       case "ghost":
         return {
@@ -82,7 +85,8 @@ export const Button: React.FC<ButtonProps> = ({
 
     switch (variant) {
       case "filled":
-        return isDark ? zincColors[900] : zincColors[50];
+        // Dark text on light background for better contrast
+        return isDark ? zincColors[800] : zincColors[700];
       case "outline":
       case "ghost":
         return appleBlue;
