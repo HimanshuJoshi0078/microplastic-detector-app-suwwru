@@ -1,181 +1,207 @@
+
 import React from "react";
-import { Stack, router } from "expo-router";
 import { FlatList, Pressable, StyleSheet, View, Text } from "react-native";
-// Components
-import { IconCircle } from "@/components/IconCircle";
 import { IconSymbol } from "@/components/IconSymbol";
 import { BodyScrollView } from "@/components/BodyScrollView";
-import { Button } from "@/components/button";
-// Constants & Hooks
+import { Stack, router } from "expo-router";
 import { backgroundColors } from "@/constants/Colors";
+import { IconCircle } from "@/components/IconCircle";
+import { Button } from "@/components/button";
+import { commonStyles, colors } from "@/styles/commonStyles";
 
 const ICON_COLOR = "#007AFF";
 
-export default function HomeScreen() {
-
-  const modalDemos = [
-    {
-      title: "Standard Modal",
-      description: "Full screen modal presentation",
-      route: "/modal",
-      color: "#007AFF",
-    },
-    {
-      title: "Form Sheet",
-      description: "Bottom sheet with detents and grabber",
-      route: "/formsheet",
-      color: "#34C759",
-    },
-    {
-      title: "Transparent Modal",
-      description: "Overlay without obscuring background",
-      route: "/transparent-modal",
-      color: "#FF9500",
-    }
-  ];
-
-  const renderModalDemo = ({ item }: { item: typeof modalDemos[0] }) => (
-    <View style={styles.demoCard}>
-      <View style={[styles.demoIcon, { backgroundColor: item.color }]}>
-        <IconSymbol name="square.grid.3x3" color="white" size={24} />
-      </View>
-      <View style={styles.demoContent}>
-        <Text style={styles.demoTitle}>{item.title}</Text>
-        <Text style={styles.demoDescription}>{item.description}</Text>
-      </View>
-      <Button
-        variant="outline"
-        size="sm"
-        onPress={() => router.push(item.route as any)}
-      >
-        Try It
-      </Button>
-    </View>
-  );
-
-  const renderEmptyList = () => (
-    <BodyScrollView contentContainerStyle={styles.emptyStateContainer}>
-      <IconCircle
-        emoji=""
-        backgroundColor={
-          backgroundColors[Math.floor(Math.random() * backgroundColors.length)]
-        }
-      />
-    </BodyScrollView>
-  );
-
-  const renderHeaderRight = () => (
-    <Pressable
-      onPress={() => {console.log("plus")}}
-      style={styles.headerButtonContainer}
-    >
-      <IconSymbol name="plus" color={ICON_COLOR} />
-    </Pressable>
-  );
-
-  const renderHeaderLeft = () => (
-    <Pressable
-      onPress={() => {console.log("gear")}}
-      style={styles.headerButtonContainer}
-    >
-      <IconSymbol
-        name="gear"
-        color={ICON_COLOR}
-      />
-    </Pressable>
-  );
-
-  return (
-    <>
-      <Stack.Screen
-        options={{
-          title: "Building the app...",
-          headerRight: renderHeaderRight,
-          headerLeft: renderHeaderLeft,
-        }}
-      />
-      <View style={styles.container}>
-        <FlatList
-          data={modalDemos}
-          renderItem={renderModalDemo}
-          keyExtractor={(item) => item.route}
-          contentContainerStyle={styles.listContainer}
-          contentInsetAdjustmentBehavior="automatic"
-          showsVerticalScrollIndicator={false}
-        />
-      </View>
-    </>
-  );
-}
+const appFeatures = [
+  {
+    id: "microplastic-detector",
+    title: "Microplastic Detector",
+    description: "Analyze images for microplastic particles using AI",
+    icon: "camera",
+    emoji: "🔬",
+    route: "/microplastic-detector"
+  },
+  {
+    id: "sample-gallery",
+    title: "Sample Gallery",
+    description: "View example images and detection results",
+    icon: "photo",
+    emoji: "📸",
+    route: "/sample-gallery"
+  },
+  {
+    id: "detection-history",
+    title: "Detection History",
+    description: "Review your previous analysis results",
+    icon: "clock",
+    emoji: "📊",
+    route: "/detection-history"
+  },
+  {
+    id: "about",
+    title: "About Microplastics",
+    description: "Learn about microplastic pollution and detection",
+    icon: "info.circle",
+    emoji: "ℹ️",
+    route: "/about"
+  }
+];
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: colors.background,
   },
-  headerSection: {
+  header: {
     padding: 20,
-    paddingBottom: 16,
-    backgroundColor: 'white',
-    borderBottomWidth: 1,
-    borderBottomColor: '#e5e5e5',
+    alignItems: 'center',
   },
-  headerTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
+  headerIcon: {
+    marginBottom: 16,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: '800',
+    color: colors.text,
+    textAlign: 'center',
     marginBottom: 8,
   },
-  headerSubtitle: {
+  subtitle: {
     fontSize: 16,
-    color: '#666',
+    color: colors.grey,
+    textAlign: 'center',
     lineHeight: 22,
   },
-  listContainer: {
-    paddingVertical: 16,
-    paddingHorizontal: 16,
+  featuresList: {
+    padding: 20,
   },
-  demoCard: {
-    backgroundColor: 'white',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
+  featureItem: {
+    backgroundColor: colors.backgroundAlt,
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: colors.grey + '30',
     flexDirection: 'row',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 2,
   },
-  demoIcon: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 16,
-  },
-  demoContent: {
+  featureContent: {
     flex: 1,
+    marginLeft: 16,
   },
-  demoTitle: {
+  featureTitle: {
     fontSize: 18,
-    fontWeight: '600',
-    color: '#333',
+    fontWeight: '700',
+    color: colors.text,
     marginBottom: 4,
   },
-  demoDescription: {
+  featureDescription: {
     fontSize: 14,
-    color: '#666',
-    lineHeight: 18,
+    color: colors.grey,
+    lineHeight: 20,
   },
-  emptyStateContainer: {
-    alignItems: "center",
-    gap: 8,
-    paddingTop: 100,
+  quickStartSection: {
+    padding: 20,
+    paddingTop: 0,
   },
-  headerButtonContainer: {
-    padding: 6, // Just enough padding around the 24px icon
+  quickStartTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: colors.text,
+    textAlign: 'center',
+    marginBottom: 16,
+  },
+  quickStartButton: {
+    backgroundColor: colors.primary,
+    marginBottom: 12,
   },
 });
+
+export default function HomeScreen() {
+  const renderFeatureItem = ({ item }: { item: typeof appFeatures[0] }) => (
+    <Pressable
+      style={styles.featureItem}
+      onPress={() => {
+        console.log(`Navigating to ${item.route}`);
+        router.push(item.route as any);
+      }}
+    >
+      <IconCircle 
+        emoji={item.emoji} 
+        backgroundColor={colors.accent + '20'} 
+        size={50}
+      />
+      <View style={styles.featureContent}>
+        <Text style={styles.featureTitle}>{item.title}</Text>
+        <Text style={styles.featureDescription}>{item.description}</Text>
+      </View>
+      <IconSymbol name="chevron.right" size={20} color={colors.grey} />
+    </Pressable>
+  );
+
+  const renderEmptyList = () => (
+    <View style={{ padding: 20 }}>
+      <Text style={commonStyles.text}>Loading features...</Text>
+    </View>
+  );
+
+  const renderHeaderRight = () => (
+    <Pressable onPress={() => router.push("/about")}>
+      <IconSymbol name="info.circle" size={24} color={colors.text} />
+    </Pressable>
+  );
+
+  const renderHeaderLeft = () => (
+    <Pressable onPress={() => console.log("Menu pressed")}>
+      <IconSymbol name="line.horizontal.3" size={24} color={colors.text} />
+    </Pressable>
+  );
+
+  return (
+    <View style={styles.container}>
+      <Stack.Screen
+        options={{
+          title: "Microplastic Detector",
+          headerStyle: { backgroundColor: colors.background },
+          headerTintColor: colors.text,
+          headerTitleStyle: { color: colors.text },
+          headerRight: renderHeaderRight,
+          headerLeft: renderHeaderLeft,
+        }}
+      />
+      
+      <BodyScrollView>
+        <View style={styles.header}>
+          <IconSymbol 
+            name="camera" 
+            size={64} 
+            color={colors.accent} 
+            style={styles.headerIcon}
+          />
+          <Text style={styles.title}>Microplastic Detector</Text>
+          <Text style={styles.subtitle}>
+            Advanced AI-powered detection of microplastic particles in environmental samples
+          </Text>
+        </View>
+
+        <View style={styles.quickStartSection}>
+          <Text style={styles.quickStartTitle}>Quick Start</Text>
+          <Button 
+            onPress={() => router.push("/microplastic-detector")}
+            style={styles.quickStartButton}
+          >
+            Start Detection Analysis
+          </Button>
+        </View>
+
+        <FlatList
+          data={appFeatures}
+          renderItem={renderFeatureItem}
+          keyExtractor={(item) => item.id}
+          ListEmptyComponent={renderEmptyList}
+          style={styles.featuresList}
+          scrollEnabled={false}
+        />
+      </BodyScrollView>
+    </View>
+  );
+}
